@@ -45,7 +45,7 @@ class ClarivateClient:
                 # Paramètres de la requête
                 params = {
                     'db': 'WOS',
-                    'limit': 10,
+                    'limit': 25,
                     'page': 1,
                     'sort_field': 'LD+D',  # Load Date Descending
                     'detail': 'full'

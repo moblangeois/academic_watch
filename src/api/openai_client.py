@@ -18,7 +18,6 @@ DOI: {article.doi if article.doi else 'N/A'}
 Authors: {', '.join(article.authors)}
 Source: {article.source}
 Publication Date: {article.publication_date}
-DOI: {article.doi if article.doi else 'N/A'}
 Abstract: {article.abstract if article.abstract else 'N/A'}
 """
 
@@ -30,14 +29,12 @@ Abstract: {article.abstract if article.abstract else 'N/A'}
                     {
                         "role": "system",
                         "content": f"""Vous êtes un assistant de recherche académique. Analysez l'article suivant et fournissez en langue française :
-                        1. Points clés (maximum 5 points)
-                        2. Score de pertinence (1-10) au regard du sujet de thèse de l'utilisateur
-                        3. Méthodologie utilisée (le cas échéant)
-                        4. Cadre théorique (le cas échéant)
+                        1. Points clés (maximum 5 points).
+                        2. Score de pertinence (1-20)/20 au regard du sujet de thèse de l'utilisateur.
+                        3. Méthodologie utilisée (le cas échéant) (maximum 1 phrase).
+                        4. Cadre théorique (le cas échéant) (maximum 10 mots).
                         
-                        Sujet de thèse : {ThesisSubject}
-
-                        Rédigez une histoire originale en français pour l'utilisateur, puis fournissez une analyse détaillée en français pour chaque article. Veuillez inclure tous les articles dans votre réponse.
+                        Sujet de thèse de l'utilisateur : {ThesisSubject}
                         
                         Formatez votre réponse comme un JSON structuré correspondant au schéma spécifié."""
                     },
@@ -69,8 +66,7 @@ Abstract: {article.abstract if article.abstract else 'N/A'}
                         3. Méthodologies utilisées
                         4. Cadres théoriques abordés
                         
-                        Formatez votre réponse comme un texte narratif structuré et bien formatté en citant en format APA7.
-                        Citez en inline URL les auteurs et l'année de publication pour chaque article. Exemple : <a href="https://doi.org/(doi)">Doe et al., 2021</a>.
+                        Formatez votre réponse comme un texte narratif structuré et bien formatté en citant en format APA7. Dans ces citations, faites le en fin de phrase les URL, les auteurs et l'année de publication pour chaque article. Exemple : <a href="https://doi.org/(doi)">Doe et al., 2021</a>.
                         """
                     },
                     {
