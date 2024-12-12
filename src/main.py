@@ -104,15 +104,19 @@ class AcademicWatch:
                 eval(self.config['SEARCH']['topics']),  # Convert string to list
                 int(self.config['SEARCH']['days_lookback'])
             )
+            logging.info(f"Fetched {len(articles)} articles")
 
             with open('config/ThesisSubject.md', 'r') as file:
                 ThesisSubject = file.read()
+            logging.info("Thesis subject loaded")
 
             # Summarize articles
             summaries = []
             for article in articles:
+                logging.info(f"Summarizing article: {article.title}")
                 summary = self.llm.summarize_article(article, ThesisSubject)
                 summaries.append(summary)
+                logging.info(f"Article summarized: {summary.title}")
 
             # Create digest
             digest = DailyDigest(
@@ -120,14 +124,14 @@ class AcademicWatch:
                 summaries=summaries,
                 total_articles=len(articles)
             )
+            logging.info("Digest created")
 
             # Send email
             self.email_sender.send_digest(
                 self.config['EMAIL']['recipient_email'],
                 digest
             )
-
-            logging.info("Daily digest completed successfully")
+            logging.info("Email sent successfully")
 
         except Exception as e:
             logging.error(f"Error in daily digest: {str(e)}")

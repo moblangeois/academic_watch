@@ -68,7 +68,7 @@ class ClarivateClient:
                                 doc.identifiers.doi if hasattr(doc, 'identifiers') and hasattr(doc.identifiers, 'doi') else None
                             ),
                             doi=doc.identifiers.doi 
-                                if hasattr(doc, 'identifiers') and hasattr(doc.identifiers, 'doi') 
+                                if hasattr(doc, 'identifiers') and hasattr(doc, 'doi') 
                                 else None,
                             publication_date=str(doc.source.publish_year) 
                                 if hasattr(doc, 'source') and hasattr(doc.source, 'publish_year') 

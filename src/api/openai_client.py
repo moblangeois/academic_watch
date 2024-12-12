@@ -22,6 +22,7 @@ Abstract: {article.abstract if article.abstract else 'N/A'}
 
     def summarize_article(self, article: Article, ThesisSubject) -> ArticleSummary:
         try:
+            logging.info(f"Summarizing article with OpenAI: {article.title}")
             completion = self.client.beta.chat.completions.parse(
                 model=self.model,
                 messages=[
@@ -45,7 +46,7 @@ Abstract: {article.abstract if article.abstract else 'N/A'}
                 response_format=ArticleSummary,
                 temperature=0
             )
-            # Parse la réponse JSON en ArticleSummary
+            logging.info(f"Article summarized: {article.title}")
             return ArticleSummary.parse_raw(completion.choices[0].message.content)
             
         except Exception as e:
