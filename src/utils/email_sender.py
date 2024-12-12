@@ -3,13 +3,16 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from ..models.schemas import DailyDigest
 import logging
+from ..api.openai_client import OpenAIClient
+from ..models.schemas import ArticleSummary
 
 class EmailSender:
-    def __init__(self, smtp_server: str, smtp_port: int, sender_email: str, sender_password: str):
+    def __init__(self, smtp_server: str, smtp_port: int, sender_email: str, sender_password: str, openai_client: OpenAIClient):
         self.smtp_server = smtp_server
         self.smtp_port = smtp_port
         self.sender_email = sender_email
         self.sender_password = sender_password
+        self.openai_client = openai_client
 
     def send_digest(self, recipient: str, digest: DailyDigest):
         try:
@@ -34,10 +37,15 @@ class EmailSender:
         if not digest.summaries:
             raise ValueError("The digest does not contain any article summaries.")
 
+        # Generate literature review
+        literature_review = self._generate_literature_review(digest)
+
         summaries_html = "".join(
             f"""
             <div class="article">
-                <div class="article-title">{summary.title}</div>
+                <div class="article-title">
+                    <a href="https://doi.org/{summary.doi}" target="_blank">{summary.title}</a>
+                </div>
                 <div class="article-summary">
                     <ul>
                         {"".join(f"<li>{point}</li>" for point in summary.key_points)}
@@ -49,6 +57,13 @@ class EmailSender:
             </div>
             """ for summary in digest.summaries
         )
+
+        # Parse the JSON and convert markdown to HTML
+        import json
+        import markdown
+
+        review_data = json.loads(literature_review)
+        review_html = markdown.markdown(review_data["review"])
 
         return f"""
         <!DOCTYPE html>
@@ -98,6 +113,13 @@ class EmailSender:
                     color: #4caf50;
                     margin-bottom: 10px;
                 }}
+                .article-title a {{
+                    color: #4caf50;
+                    text-decoration: none;
+                }}
+                .article-title a:hover {{
+                    text-decoration: underline;
+                }}
                 .article-summary {{
                     font-size: 14px;
                     line-height: 1.5;
@@ -117,6 +139,9 @@ class EmailSender:
                     Academic Watch Digest - {digest.date}
                 </div>
                 <div class="content">
+                    <h2>Revue de la littérature</h2>
+                    <div>{review_html}</div>
+                    <h2>Résumé des études menées</h2>
                     {summaries_html}
                 </div>
                 <div class="footer">
@@ -126,3 +151,22 @@ class EmailSender:
         </body>
         </html>
         """
+
+    def _generate_literature_review(self, digest: DailyDigest) -> str:
+        try:
+            articles_text = "\n\n".join([self._format_article_text(summary) for summary in digest.summaries])
+            review = self.openai_client.generate_literature_review(articles_text)
+            return review
+        except Exception as e:
+            logging.error(f"Error generating literature review: {str(e)}")
+            return "Unable to generate literature review."
+
+    def _format_article_text(self, summary: ArticleSummary) -> str:
+        return f"""
+Title: {summary.title}
+DOI: {summary.doi}
+Key Points: {', '.join(summary.key_points)}
+Relevance Score: {summary.relevance_score}
+Methodology: {summary.methodology if summary.methodology else 'N/A'}
+Theoretical Framework: {summary.theoretical_framework if summary.theoretical_framework else 'N/A'}
+"""

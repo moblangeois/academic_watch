@@ -11,6 +11,7 @@ class Article(BaseModel):
 
 class ArticleSummary(BaseModel):
     title: str
+    doi: str
     key_points: List[str]
     relevance_score: int
     methodology: Optional[str] = None
@@ -20,3 +21,6 @@ class DailyDigest(BaseModel):
     date: str
     summaries: List[ArticleSummary]
     total_articles: int
+
+class LitteratureReview(BaseModel):
+    review: str

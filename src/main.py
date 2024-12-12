@@ -91,7 +91,8 @@ class AcademicWatch:
             self.config['EMAIL']['smtp_server'],
             int(self.config['EMAIL']['smtp_port']),
             self.config['EMAIL']['sender_email'],
-            self.config['EMAIL']['sender_password']
+            self.config['EMAIL']['sender_password'],
+            self.llm
         )
 
     def run_daily_digest(self):

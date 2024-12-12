@@ -1,7 +1,7 @@
 # src/api/openai_client.py
 
 from openai import OpenAI
-from ..models.schemas import ArticleSummary, Article
+from ..models.schemas import ArticleSummary, Article, LitteratureReview
 import logging
 
 class OpenAIClient:
@@ -13,6 +13,7 @@ class OpenAIClient:
         """Convertit un article en texte formaté pour l'analyse."""
         return f"""
 Title: {article.title}
+DOI: {article.doi if article.doi else 'N/A'}
 Authors: {', '.join(article.authors)}
 Source: {article.source}
 Publication Date: {article.publication_date}
@@ -27,7 +28,7 @@ Abstract: {article.abstract if article.abstract else 'N/A'}
                 messages=[
                     {
                         "role": "system",
-                        "content": """Vous êtes un assistant de recherche académique. Analysez l'article suivant et fournissez :
+                        "content": """Vous êtes un assistant de recherche académique. Analysez l'article suivant et fournissez en langue française :
                         1. Points clés (maximum 5 points)
                         2. Score de pertinence (1-10)
                         3. Méthodologie utilisée (le cas échéant)
@@ -46,6 +47,34 @@ Abstract: {article.abstract if article.abstract else 'N/A'}
             )
             # Parse la réponse JSON en ArticleSummary
             return ArticleSummary.parse_raw(completion.choices[0].message.content)
+            
+        except Exception as e:
+            logging.error(f"OpenAI API error: {str(e)}")
+            raise
+
+    def generate_literature_review(self, articles_text: str) -> str:
+        try:
+            completion = self.client.beta.chat.completions.parse(
+                model=self.model,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": """Vous êtes un assistant de recherche académique. Analysez les articles suivants et fournissez une revue de la littérature en langue française :
+                        1. Synthèse des points clés
+                        2. Importance et pertinence des études
+                        3. Méthodologies utilisées
+                        4. Cadres théoriques abordés
+                        
+                        Formatez votre réponse comme un texte narratif structuré et bien formatté en citant en format APA7."""
+                    },
+                    {
+                        "role": "user",
+                        "content": articles_text
+                    }
+                ],
+                response_format=LitteratureReview,
+            )
+            return completion.choices[0].message.content
             
         except Exception as e:
             logging.error(f"OpenAI API error: {str(e)}")
