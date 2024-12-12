@@ -72,10 +72,6 @@ L'application est configurée pour s'exécuter quotidiennement à 08:00 et envoy
 - requests
 - clarivate/wosstarter_python_client
 
-## Contribuer
-
-Les contributions sont les bienvenues ! Veuillez soumettre une pull request ou ouvrir une issue pour discuter des modifications que vous souhaitez apporter.
-
 ## Licence
 
 Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
