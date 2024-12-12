@@ -5,6 +5,9 @@ from ..models.schemas import DailyDigest
 import logging
 from ..api.openai_client import OpenAIClient
 from ..models.schemas import ArticleSummary
+import json
+import markdown
+from typing import List
 
 class EmailSender:
     def __init__(self, smtp_server: str, smtp_port: int, sender_email: str, sender_password: str, openai_client: OpenAIClient):
@@ -47,11 +50,9 @@ class EmailSender:
                     <a href="https://doi.org/{summary.doi}" target="_blank">{summary.title}</a>
                 </div>
                 <div class="article-summary">
+                    <p><strong>Auteurs:</strong> {self._format_authors(summary.authors)}</p>
                     <ul>
                         {"".join(f"<li>{point}</li>" for point in summary.key_points)}
-                    </ul>
-                    <ul>
-                        {"".join(f"<li>{author}</li>" for author in summary.authors)}
                     </ul>
                     <p><strong>DOI:</strong> {summary.doi}</p>
                     <p><strong>Relevance Score:</strong> {summary.relevance_score}</p>
@@ -61,10 +62,6 @@ class EmailSender:
             </div>
             """ for summary in digest.summaries
         )
-
-        # Parse the JSON and convert markdown to HTML
-        import json
-        import markdown
 
         review_data = json.loads(literature_review)
         review_html = markdown.markdown(review_data["review"])
@@ -174,3 +171,11 @@ Relevance Score: {summary.relevance_score}
 Methodology: {summary.methodology if summary.methodology else 'N/A'}
 Theoretical Framework: {summary.theoretical_framework if summary.theoretical_framework else 'N/A'}
 """
+
+    def _format_authors(self, authors: List[str]) -> str:
+        if len(authors) == 1:
+            return authors[0]
+        elif len(authors) == 2:
+            return f"{authors[0]} & {authors[1]}"
+        else:
+            return f"{', '.join(authors[:-1])}, & {authors[-1]}"

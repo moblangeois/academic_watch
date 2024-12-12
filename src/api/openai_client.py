@@ -70,7 +70,7 @@ Abstract: {article.abstract if article.abstract else 'N/A'}
                         4. Cadres théoriques abordés
                         
                         Formatez votre réponse comme un texte narratif structuré et bien formatté en citant en format APA7.
-                        Citez en inline URL les auteurs et l'année de publication pour chaque article. Exemple : [(Doe et al., 2021)](DOI pour l'article (doi.org/(doi))).
+                        Citez en inline URL les auteurs et l'année de publication pour chaque article. Exemple : <a href="https://doi.org/(doi)">Doe et al., 2021</a>.
                         """
                     },
                     {
