@@ -55,9 +55,9 @@ class EmailSender:
                         {"".join(f"<li>{point}</li>" for point in summary.key_points)}
                     </ul>
                     <p><strong>DOI:</strong> {summary.doi}</p>
-                    <p><strong>Relevance Score:</strong> {summary.relevance_score}</p>
-                    {f"<p><strong>Methodology:</strong> {summary.methodology}</p>" if summary.methodology else ""}
-                    {f"<p><strong>Theoretical Framework:</strong> {summary.theoretical_framework}</p>" if summary.theoretical_framework else ""}
+                    <p><strong>Score de pertinence:</strong> {summary.relevance_score}/20</p>
+                    {f"<p><strong>Méthodologie:</strong> {summary.methodology}</p>" if summary.methodology else ""}
+                    {f"<p><strong>Cadre théorique:</strong> {summary.theoretical_framework}</p>" if summary.theoretical_framework else ""}
                 </div>
             </div>
             """ for summary in digest.summaries
@@ -146,7 +146,8 @@ class EmailSender:
                     {summaries_html}
                 </div>
                 <div class="footer">
-                    This email was generated automatically by Academic Watch. For any inquiries, contact us at support@example.com.
+                    Cet email a été généré automatiquement par Academic Watch.
+                    <a href="https://github.com/moblangeois/academic_watch" target="_blank">GitHub Repository</a>
                 </div>
             </div>
         </body>
@@ -164,13 +165,13 @@ class EmailSender:
 
     def _format_article_text(self, summary: ArticleSummary) -> str:
         return f"""
-Title: {summary.title}
-DOI: {summary.doi}
-Key Points: {', '.join(summary.key_points)}
-Relevance Score: {summary.relevance_score}
-Methodology: {summary.methodology if summary.methodology else 'N/A'}
-Theoretical Framework: {summary.theoretical_framework if summary.theoretical_framework else 'N/A'}
-"""
+        Title: {summary.title}
+        DOI: {summary.doi}
+        Key Points: {', '.join(summary.key_points)}
+        Relevance Score: {summary.relevance_score}
+        Methodology: {summary.methodology if summary.methodology else 'N/A'}
+        Theoretical Framework: {summary.theoretical_framework if summary.theoretical_framework else 'N/A'}
+        """
 
     def _format_authors(self, authors: List[str]) -> str:
         if len(authors) == 1:

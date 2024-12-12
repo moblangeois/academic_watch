@@ -3,7 +3,6 @@
 from openai import OpenAI
 from ..models.schemas import ArticleSummary, Article, LitteratureReview
 import logging
-import os
 
 class OpenAIClient:
     def __init__(self, api_key: str, model: str):
