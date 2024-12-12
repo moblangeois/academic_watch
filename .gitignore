@@ -1,0 +1,19 @@
+# Environnements virtuels
+venv/
+env/
+
+# Fichiers de configuration
+config/config.ini
+
+# Répertoires temporaires
+temp/
+logs/
+
+# Fichiers de cache
+__pycache__/
+*.pyc
+
+# Fichiers de l'IDE
+.vscode/
+.idea/
+*.swp

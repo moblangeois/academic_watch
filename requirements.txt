@@ -1,0 +1,7 @@
+openai
+ollama
+pydantic
+python-dotenv
+schedule
+requests
+clarivate/wosstarter_python_client
