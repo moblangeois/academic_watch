@@ -11,6 +11,7 @@ class Article(BaseModel):
 
 class ArticleSummary(BaseModel):
     title: str
+    authors: List[str]
     doi: str
     key_points: List[str]
     relevance_score: int

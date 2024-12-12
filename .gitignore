@@ -4,6 +4,7 @@ env/
 
 # Fichiers de configuration
 config/config.ini
+config/ThesisSubject.md
 
 # Répertoires temporaires
 temp/

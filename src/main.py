@@ -105,10 +105,13 @@ class AcademicWatch:
                 int(self.config['SEARCH']['days_lookback'])
             )
 
+            with open('config/ThesisSubject.md', 'r') as file:
+                ThesisSubject = file.read()
+
             # Summarize articles
             summaries = []
             for article in articles:
-                summary = self.llm.summarize_article(article)
+                summary = self.llm.summarize_article(article, ThesisSubject)
                 summaries.append(summary)
 
             # Create digest

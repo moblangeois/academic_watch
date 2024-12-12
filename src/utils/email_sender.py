@@ -50,6 +50,10 @@ class EmailSender:
                     <ul>
                         {"".join(f"<li>{point}</li>" for point in summary.key_points)}
                     </ul>
+                    <ul>
+                        {"".join(f"<li>{author}</li>" for author in summary.authors)}
+                    </ul>
+                    <p><strong>DOI:</strong> {summary.doi}</p>
                     <p><strong>Relevance Score:</strong> {summary.relevance_score}</p>
                     {f"<p><strong>Methodology:</strong> {summary.methodology}</p>" if summary.methodology else ""}
                     {f"<p><strong>Theoretical Framework:</strong> {summary.theoretical_framework}</p>" if summary.theoretical_framework else ""}
