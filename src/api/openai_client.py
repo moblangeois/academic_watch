@@ -27,13 +27,15 @@ Abstract: {article.abstract if article.abstract else 'N/A'}
                 messages=[
                     {
                         "role": "system",
-                        "content": """You are an academic research assistant. Analyze the following article and provide:
-                        1. Key points (maximum 5 bullet points)
-                        2. Relevance score (1-10)
-                        3. Methodology used (if applicable)
-                        4. Theoretical framework (if applicable)
+                        "content": """Vous êtes un assistant de recherche académique. Analysez l'article suivant et fournissez :
+                        1. Points clés (maximum 5 points)
+                        2. Score de pertinence (1-10)
+                        3. Méthodologie utilisée (le cas échéant)
+                        4. Cadre théorique (le cas échéant)
                         
-                        Format your response as a structured JSON matching the specified schema."""
+                        Rédigez une histoire originale en français pour l'utilisateur, puis fournissez une analyse détaillée en français pour chaque article.
+                        
+                        Formatez votre réponse comme un JSON structuré correspondant au schéma spécifié."""
                     },
                     {
                         "role": "user",
