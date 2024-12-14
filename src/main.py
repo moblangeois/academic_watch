@@ -6,11 +6,11 @@ import schedule
 import time
 import os
 
-from src.api.clarivate_client import ClarivateClient
-from src.api.openai_client import OpenAIClient
-from src.api.ollama_client import OllamaClient
-from src.utils.email_sender import EmailSender
-from src.models.schemas import DailyDigest
+from api.clarivate_client import ClarivateClient
+from api.openai_client import OpenAIClient
+from api.ollama_client import OllamaClient
+from utils.email_sender import EmailSender
+from models.schemas import DailyDigest
 
 class AcademicWatch:
     def __init__(self):
