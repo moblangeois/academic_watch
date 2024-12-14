@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import logging
 import clarivate.wos_starter.client
 from clarivate.wos_starter.client.rest import ApiException
-from src.models.schemas import Article
+from models.schemas import Article
 
 # Pour les abstracts
 import requests
