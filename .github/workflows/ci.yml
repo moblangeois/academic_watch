@@ -1,5 +1,4 @@
 name: Academic Watch Workflow
-
 on:
   push:
     branches:
@@ -14,24 +13,50 @@ on:
 jobs:
   run-academic-watch:
     runs-on: ubuntu-latest
-
+    
+    env:
+      # API Keys
+      CLARIVATE_API_KEY: ${{ secrets.CLARIVATE_API_KEY }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      
+      # LLM Configuration
+      LLM_PROVIDER: ${{ secrets.LLM_PROVIDER }}
+      OPENAI_MODEL: ${{ secrets.OPENAI_MODEL }}
+      OLLAMA_MODEL: ${{ secrets.OLLAMA_MODEL }}
+      
+      # Email Configuration
+      SMTP_SERVER: ${{ secrets.SMTP_SERVER }}
+      SMTP_PORT: ${{ secrets.SMTP_PORT }}
+      SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+      SENDER_PASSWORD: ${{ secrets.SENDER_PASSWORD }}
+      RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+      
+      # Search Configuration
+      SEARCH_TOPICS: ${{ secrets.SEARCH_TOPICS }}
+      DAYS_LOOKBACK: ${{ secrets.DAYS_LOOKBACK }}
+      
+      # System Configuration
+      TEMP_DIR: "temp"
+      LOG_DIR: "logs"
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
+      
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.10'
-
+        
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-
+        
     - name: Set PYTHONPATH
       run: echo "PYTHONPATH=$(pwd)/src" >> $GITHUB_ENV
-
+      
     - name: Run Academic Watch
       env:
         GITHUB_ACTIONS: true
