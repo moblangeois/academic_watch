@@ -137,19 +137,25 @@ class AcademicWatch:
             logging.error(f"Error in daily digest: {str(e)}")
             raise
 
+    def run_once(self):
+        self.run_daily_digest()
+
 def main():
     watch = AcademicWatch()
     
-    # Schedule daily run
-    schedule.every().day.at("08:00").do(watch.run_daily_digest)
-    
-    # Run immediately for testing
-    watch.run_daily_digest()
-    
-    # Keep running
-    while True:
-        schedule.run_pending()
-        time.sleep(60)
+    if os.getenv('GITHUB_ACTIONS'):
+        watch.run_once()
+    else:
+        # Schedule daily run
+        schedule.every().day.at("08:00").do(watch.run_daily_digest)
+        
+        # Run immediately for testing
+        watch.run_daily_digest()
+        
+        # Keep running
+        while True:
+            schedule.run_pending()
+            time.sleep(60)
 
 if __name__ == "__main__":
     main()
