@@ -4,5 +4,5 @@ pydantic
 python-dotenv
 schedule
 requests
-clarivate/wosstarter_python_client
+git+https://github.com/clarivate/wosstarter_python_client.git
 matplotlib
