@@ -35,4 +35,4 @@ jobs:
     - name: Run Academic Watch
       env:
         GITHUB_ACTIONS: true
-      run: python -m src.main
+      run: python src/main.py

@@ -1,7 +1,7 @@
 # src/api/openai_client.py
 
 from openai import OpenAI
-from ..models.schemas import ArticleSummary, Article, LitteratureReview
+from models.schemas import ArticleSummary, Article, LitteratureReview
 import logging
 
 class OpenAIClient:

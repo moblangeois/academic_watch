@@ -1,5 +1,5 @@
 import ollama
-from ..models.schemas import ArticleSummary
+from models.schemas import ArticleSummary
 import logging
 
 class OllamaClient:

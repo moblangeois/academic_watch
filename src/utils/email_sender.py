@@ -1,10 +1,10 @@
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from ..models.schemas import DailyDigest
+from models.schemas import DailyDigest
 import logging
-from ..api.openai_client import OpenAIClient
-from ..models.schemas import ArticleSummary
+from api.openai_client import OpenAIClient
+from models.schemas import ArticleSummary
 import json
 import markdown
 from typing import List
