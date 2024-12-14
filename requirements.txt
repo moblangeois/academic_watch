@@ -7,3 +7,4 @@ requests
 git+https://github.com/clarivate/wosstarter_python_client.git
 matplotlib
 bs4
+markdown
